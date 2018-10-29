@@ -21,7 +21,7 @@ const fs = require("fs");
             commandLibrary.cat(userInputArray.slice(1));
             break;
         case "head":
-            commandLibrary.head(userInputArray.slice(1, 2), userInputArray.slice(2, 3));
+            commandLibrary.head(userInputArray[1], userInputArray[2]);
             break;
         default: 
             commandLibrary.error(command);
@@ -35,6 +35,7 @@ const fs = require("fs");
     },
     "cat": function(fullPath){
         const fileName = fullPath[0];
+        console.log(fileName);
         fs.readFile(fileName, (err, data) => {
             if(err) throw err;
             done(data);
@@ -43,8 +44,9 @@ const fs = require("fs");
     "head": function(fileName, lines){
         fs.readFile(fileName, (err, data) => {
             if(err) throw err;
+            data = data.toString("utf8");
             var textArray = data.split("\n");
-            var trimText = textArray.slice(0, n-1);
+            var trimText = textArray.slice(0, lines);
             var newText = trimText.join("\n");
             done(newText);
         });
