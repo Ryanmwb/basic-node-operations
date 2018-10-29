@@ -21,8 +21,10 @@ const fs = require("fs");
             commandLibrary.cat(userInputArray.slice(1));
             break;
         case "head":
-            commandLibrary.head(userInputArray.slice(1));
+            commandLibrary.head(userInputArray.slice(1, 2), userInputArray.slice(2, 3));
             break;
+        default: 
+            commandLibrary.error(command);
     }
 }
 
@@ -38,8 +40,17 @@ const fs = require("fs");
             done(data);
         });
     },
-    "head": function(lines){
-        
+    "head": function(fileName, lines){
+        fs.readFile(fileName, (err, data) => {
+            if(err) throw err;
+            var textArray = data.split("\n");
+            var trimText = textArray.slice(0, n-1);
+            var newText = trimText.join("\n");
+            done(newText);
+        });
+    },
+    "error": function(command){
+        done("error... command '" + command + "' does not exist.")
     }
 };
 
