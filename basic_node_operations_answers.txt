@@ -92,5 +92,21 @@ uniq - this command removes identical adjacent lines.
 
 
 2) Using the pipe (|) connect at least two commands and run it on commands.js. Explain what the output was and why the specific data was outputted.
+    A: I typed out `sort test.txt | uniq`.  This alphabetically sorted the test.txt and then the uniq command got rid of duplicates.
 
-6) 
+
+6) function reverseLetters(string){
+  var wordsArray = string.split(" ");
+
+  for(var i=0; i < wordsArray.length; i++){
+    var word = wordsArray[i];
+    word = word.split("");
+    word.reverse();
+    word = word.join('');
+    wordsArray[i] = word;
+  }
+  wordsArray = wordsArray.join(" ")
+  return wordsArray;
+}
+
+reverseLetters("hi there")
