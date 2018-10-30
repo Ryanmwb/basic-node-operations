@@ -4,7 +4,7 @@ const fs = require("fs");
  function done(output) {
      process.stdout.write(output);
      process.stdout.write('\nprompt > ');
- }
+ };
 
 //where we will store our commands
  function evaluateCmd(userInput) {
@@ -26,10 +26,12 @@ const fs = require("fs");
         case "tail":
             commandLibrary.tail(userInputArray[1], userInputArray[2]);
             break;
+        case "readdir":
+            commandLibrary.readdir();
         default: 
             commandLibrary.error(command);
-    }
-}
+    };
+};
 
 //where we will store the logic of our commands
  const commandLibrary = {
@@ -63,6 +65,14 @@ const fs = require("fs");
             var newText = trimText.join("\n");
             done(newText);
         });
+    },
+    "readdir": function(){
+        fs.readdir('.', (err, files) => {
+            if(err) throw err;
+            var result = files.forEach(file => process.stdout.write(file.toString() + "\n"));
+            done(result);
+          });
+          console.log("readdir")
     },
     "error": function(command){
         done("error... command '" + command + "' does not exist.")

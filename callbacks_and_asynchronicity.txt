@@ -1,0 +1,68 @@
+What is the difference between readdirSync and readdir?
+A: readdirSync is a blocking synchronous function and readdir is asynchronous.  The asynchronous function allows the js to run and execute other code while the current asynchronous function is being ran.
+
+What is the event loop and how does it handle asynchronous requests?
+A: An asynchronous function is first put on the call stack, then moved to the web api.  When the function is executed it then moves it's callback function to the callback queue.  The event loop checks to see if the call stack is empty and if it is it pushes the callback in the queue onto the call stack.
+
+Given the following code, specify whether the program is asynchronous and non-blocking or synchronous and blocking or synchronous and non-blocking.
+A: It is a synchronous blocking program.
+
+const fs = require('fs');
+const file = fs.readFileSync('foo.txt');
+console.log(file.toString());
+
+
+Given the following code, specify whether the program is asynchronous and non-blocking or synchronous and blocking or synchronous and non-blocking.
+A: asynchronous and non-blocking.
+
+const fs = require('fs');
+fs.readFile('foo.txt', (err, file) => {
+ if (err) throw err;
+ console.log(file.toString());
+});
+console.log("test");
+
+
+In what order will the console.log statements execute in the code below?
+A: C, A, B.
+
+const fs = require('fs');
+fs.readFile('foo.txt', (err, file) => {
+ if (err) throw err;
+ console.log("A");
+ console.log("B")
+});
+console.log("C");
+
+
+setTimeout is a JavaScript function which calls a function after a set amount of milliseconds. Given the following code, explain in what sequence the functions will run and why.
+A: 
+    1) greeting will be moved to the call stack
+    2) greeting -> setTimeout function will be moved to the web api
+    3) hello will be moved to the call stack
+    4) the callback function of console.log("friend") will be moved to the callback queue after 100 milliseconds pass
+    5) console.log(hello) is executed and removed from call stack
+    6) since call stack is empty, the event loop will move the console.log(friend) callback function from the callback queue to the call stack
+    7) console.log(friend) is executed and removed from the stack.
+
+function greeting() {
+ setTimeout(() => {
+   console.log("friend");
+ }, 100);
+}
+
+function hello(){
+ console.log("hello");
+}
+
+greeting();
+hello();
+
+Create a function which utilizes a callback. Make sure to add console.log statements to understand when your callback function is called.
+A: 
+const fs = require('fs');
+fs.readFile('foo.txt', (err, file) => {
+ if (err) throw err;
+ console.log("first");
+});
+console.log("second");
